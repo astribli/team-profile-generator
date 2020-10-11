@@ -1,0 +1,25 @@
+{
+  "name": "team-profile-generator",
+  "version": "1.0.0",
+  "description": "Node application to generate a team profile.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "jest": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astribli/team-profile-generator.git"
+  },
+  "author": "AJ Stribling",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/astribli/team-profile-generator/issues"
+  },
+  "homepage": "https://github.com/astribli/team-profile-generator#readme",
+  "devDependencies": {
+    "jest": "^26.5.2"
+  }
+}
