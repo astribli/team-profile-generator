@@ -1,61 +1,138 @@
-// Requires
-const fs = require('fs');
-const inquirer = require('inquirer');
-const path = require('path');
-const generatePage = require('./src/page-template.js');
+const inquirer = require("inquirer");
+const fs = require("fs");
 
-// Array of questions for user
-const questions = [
-    {
-        type: 'input',
-        name: 'title',
-        message: 'What is your project title?'
-    },
-    {
-        type: 'input',
-        name: 'description',
-        message: 'Please give project description:'
-    },
-    {
-        type: 'input',
-        name: 'installation',
-        message: 'Please give installation instructions:'
-    },
-    {
-        type: 'input',
-        name: 'usage',
-        message: 'Please give usage information:'
-    },
-    {
-        type: 'input',
-        name: 'guidelines',
-        message: 'Please give contribution guidelines:'
-    },
-    {
-        type: 'input',
-        name: 'test',
-        message: 'Please give test instructions:'
-    },
-    {
-        type: 'checkbox',
-        name: 'license',
-        message: 'Please choose a license for your project:',
-        choices: ['MIT', 'Apache', 'GPL', 'BSD', 'none']
-    },
-    {
-        type: 'input',
-        name: 'github',
-        message: 'Please enter your GitHub username:'
-    },
-    {
-        type: 'input',
-        name: 'email',
-        message: 'Please enter your email address:'
-    },
-];
+const Employee = require("./lib/employee")
+const Engineer = require("./lib/engineer")
+const Manager = require("./lib/manager")
+const Intern = require("./lib/intern");
+const { off } = require("process");
 
-fs.writeFile('./index.html', generatePage(name, github), err => {
-  if (err) throw new Error(err);
+let finalTeamArray = [];
 
-  console.log('Profile complete! Check out index.html to see the output!');
-});
+
+function startingPrompt() {
+    inquirer.prompt([
+        {
+            message: "**Welcome to Team Generator! Please write your team name:**",
+            name: "teamname"
+        }
+    ])
+        .then(function (data) {
+            const teamName = data.teamname
+            finalTeamArray.push(teamName)
+            addManager();
+        })
+    }
+
+    function addManager() {
+        inquirer.prompt([
+            {
+                message: "What is your team manager's name?",
+                name: "name"
+            },
+            {
+                message: "What is your team manager's email address?",
+                name: "email"
+            },
+
+            {
+                type: "number",
+                message: "What is your team manager's office number?",
+                name: "officeNumber"
+            },
+        ])
+            .then(function (data) {
+                const name = data.name
+                const id = 1001
+                const email = data.email
+                const officeNumber = data.officeNumber
+                const teamMember = new Manager(name, id, email, officeNumber)
+                finalTeamArray.push(teamMember)
+                addTeamMembers();
+            });
+    }
+
+    function addTeamMembers() {
+        inquirer.prompt([
+            {
+                type: "list",
+                message: "Would you like to add more team members?",
+                choices: ["Yes, add an engineer", "Yes, add an intern", "No, my team is complete"],
+                name: "addMemberData"
+            }
+        ])
+
+            .then(function (data) {
+
+                switch (data.addMemberData) {
+                    case "Yes, add an engineer":
+                        addEngineer();
+                        break;
+
+                    case "Yes, add an intern":
+                        addIntern();
+                        break;
+                    case "No, my team is complete":
+                        compileTeam();
+                        break;
+                }
+            });
+    }
+
+    function addEngineer() {
+        inquirer.prompt([
+            {
+                message: "What is this engineer's name?",
+                name: "name"
+            },
+            {
+                message: "What is this engineer's email address?",
+                name: "email"
+            },
+            {
+                message: "What is this engineer's Github profile?",
+                name: "github"
+            }
+        ])
+
+            .then(function (data) {
+                const name = data.name
+                const id = finalTeamArray.length + 1
+                const email = data.email
+                const github = data.github
+                const teamMember = new Engineer(name, id, email, github)
+                finalTeamArray.push(teamMember)
+                addTeamMembers()
+            });
+
+    };
+
+    function addIntern() {
+        inquirer.prompt([
+            {
+                message: "What is this intern's name?",
+                name: "name"
+            },
+            {
+                message: "What is this intern's email address?",
+                name: "email"
+            },
+            {
+                message: "What is this intern's school?",
+                name: "school"
+            }
+        ])
+
+            .then(function (data) {
+                const name = data.name
+                const id = finalTeamArray.length + 1
+                const email = data.email
+                const school = data.school
+                const teamMember = new Intern(name, id, email, school)
+                finalTeamArray.push(teamMember)
+                addTeamMembers()
+            });
+
+    };
+
+    startingPrompt()
