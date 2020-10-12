@@ -1,32 +1,42 @@
 function generateHTML(data) {
-
     var eCards = "";
     for (let i = 0; i < data.length; i++) {
-        eCards = eCards + `<div class="col-3">
+        
+        if (data[1].getRole() == `Manager`) {
+            eCards = eCards + `<div class="col-3">
             <div class="card-body">
-                <h5 class="card-title">${data[i].name}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">${data[i].getRole()}</h6> 
+                <h5 class="card-title">${data[1].name}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">${data[1].getRole()}</h6> 
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">ID : ${data[i].id}</li>
-                    <li class="list-group-item">Email: <a href="mailto:${data[i].email}">${data[i].email}</li>
-                `;
-        if (data[i].getRole() == `Manager`) {
-            eCards = eCards + `
-                    <li class="list-group-item">Office Number : ${data[i].officeNumber}</li>
+                    <li class="list-group-item">ID : ${data[1].id}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${data[1].email}">${data[1].email}</li>
+                    <li class="list-group-item">Office Number : ${data[1].officeNumber}</li>
                 </ul>
             </div>
         </div>
             `;
-        } if (data[i].getRole() == `Engineer`) {
-            eCards = eCards + `
-                    <li class="list-group-item">GitHub Username : ${data[i].github}</li>
+        } if (data[2].getRole() == `Engineer`) {
+            eCards = eCards + `<div class="col-3">
+            <div class="card-body">
+                <h5 class="card-title">${data[2].name}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">${data[2].getRole()}</h6> 
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">ID : ${data[2].id}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${data[2].email}">${data[2].email}</li>
+                    <li class="list-group-item">GitHub Username : ${data[2].github}</li>
                 </ul>
             </div>
         </div>
             `;
-        } else if (data[i].getRole() == `Intern`) {
-            eCards = eCards + `
-                    <li class="list-group-item">School : ${data[i].school}</li>
+        } if (data[3].getRole() == `Intern`) {
+            eCards = eCards + `<div class="col-3">
+            <div class="card-body">
+                <h5 class="card-title">${data[3].name}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">${data[3].getRole()}</h6> 
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">ID : ${data[3].id}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${data[3].email}">${data[3].email}</li>
+                    <li class="list-group-item">School : ${data[3].school}</li>
                 </ul>
             </div>
         </div>
